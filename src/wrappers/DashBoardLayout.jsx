@@ -58,6 +58,16 @@ const DashBoardLayout = () => {
           <Card movies={movies} />
         </div>
       </div>
+      <style>{`button {
+         margin-left: 20px;
+          padding: 8px 16px;
+          border: none;
+          border-radius: 4px;
+          background-color: #0066cc;
+          color: white;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }`}</style>
     </>
   );
 };
