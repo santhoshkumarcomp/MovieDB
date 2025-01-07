@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const Card = ({ movies }) => {
+const Card = ({ movies, watchList, setWatchList }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
@@ -37,18 +37,24 @@ const Card = ({ movies }) => {
   return (
     <div className="container">
       {/* Movie Cards */}
-
+      <h1
+        style={{
+          color: "white",
+          fontFamily: "'Lato', sans-serif",
+          textAlign: "center",
+          fontSize: "20px",
+          marginTop: "20px", // Add some spacing above the heading
+        }}
+      >
+        Searched Movies
+      </h1>
       <div className="movie-grid">
         {currentMovies.map((movie) => (
           <div key={movie.imdbID} className="movie-card">
             <Link to={`/moviedetails/${movie.imdbID}`}>
               <div className="movie-image">
                 <img
-                  src={
-                    movie.Poster !== "N/A"
-                      ? movie.Poster
-                      : "/api/placeholder/288/400"
-                  }
+                  src={movie.Poster !== "N/A" ? movie.Poster : "N/A"}
                   alt={movie.Title}
                 />
               </div>
@@ -59,6 +65,22 @@ const Card = ({ movies }) => {
                 <p>{movie.Year}</p>
               </div>
             </Link>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                console.log("Click");
+                if (watchList.length > 0) {
+                  setWatchList([...watchList, movie]);
+                } else {
+                  watchList.push(movie);
+                }
+                console.log(movie.imdbID);
+                console.log(watchList);
+                // Add movie to bookmark list
+              }}
+            >
+              <span className="material-symbols-outlined">bookmark</span>
+            </button>
           </div>
         ))}
       </div>
@@ -205,7 +227,9 @@ const Card = ({ movies }) => {
 Card.propTypes = {
   movies: PropTypes.shape({
     Search: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
+  }),
+  watchList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setWatchList: PropTypes.func.isRequired,
 };
 
 export default Card;

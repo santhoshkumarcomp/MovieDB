@@ -1,13 +1,13 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import backgroundImage from "../assets/Background.jpeg";
 import movieLoader from "../loaders/movieLoader";
 import { useState } from "react";
 import Card from "../pages/Card";
 var movies = {};
-const DashBoardLayout = () => {
+const DashBoardLayout = ({ watchList, setWatchList }) => {
   const [searchMovie, setSearchMovie] = useState("");
   const [moviesData, setMoviesData] = useState([]);
-
+  const navigate = useNavigate();
   const handleClick = (searchMovie) => async () => {
     movies = await movieLoader(searchMovie);
     setMoviesData(movies.Search || []);
@@ -53,9 +53,26 @@ const DashBoardLayout = () => {
               border: "1px solid #ccc",
             }}
           />
+          {/* <select name="selectedFruit">
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="orange">Orange</option>
+          </select> */}
           <button onClick={handleClick(searchMovie)}>Search</button>
+          <button
+            onClick={() => {
+              navigate("/watchlist");
+              console.log("Cleared Watchlist");
+            }}
+          >
+            WatchList
+          </button>
           <Outlet />
-          <Card movies={movies} />
+          <Card
+            movies={movies}
+            watchList={watchList}
+            setWatchList={setWatchList}
+          />
         </div>
       </div>
       <style>{`button {

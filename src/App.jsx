@@ -1,18 +1,21 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashBoardLayout from "./wrappers/DashBoardLayout";
 // import Card from "./pages/Card";
-import movieLoader from "./loaders/movieLoader";
-//import WatchList from "./pages/WatchList";
+//import movieLoader from "./loaders/movieLoader";
+import WatchList from "./pages/WatchList";
 import MovieDetails from "./pages/MovieDetails";
 import { useState } from "react";
 
 function App() {
   const [movie, setMovie] = useState([]);
+  const [watchList, setWatchList] = useState([]);
+
   const routes = [
     {
       path: "/",
-      element: <DashBoardLayout />,
-      loader: movieLoader,
+      element: (
+        <DashBoardLayout watchList={watchList} setWatchList={setWatchList} />
+      ),
       hydrateFallbackElement: <p> Loading...</p>,
       children: [
         {
@@ -20,13 +23,15 @@ function App() {
           element: <MovieDetails movie={movie} setMovie={setMovie} />,
         },
         {
-          path: "about",
-          element: <h1>About</h1>,
+          path: "/watchlist",
+          element: (
+            <WatchList watchList={watchList} setWatchList={setWatchList} />
+          ),
         },
-        {
-          path: "contact",
-          element: <h1>Contact</h1>,
-        },
+        // {
+        //   path: "Watchlist",
+        //   element: <WatchList />,
+        // },
       ],
     },
   ];
