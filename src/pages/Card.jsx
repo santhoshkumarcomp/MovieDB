@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const Card = ({ movies }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -14,26 +14,35 @@ const Card = ({ movies }) => {
     return () => mediaQuery.removeListener(handler);
   }, []);
 
+  const containerStyle = {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: "1rem",
+    padding: "1rem",
+  };
+
   const cardStyle = {
-    width: isMobile ? "100%" : "288px",
+    width: isMobile ? "90%" : "288px",
     maxWidth: "100%",
     border: "1px solid #e2e8f0",
-    borderRadius: isMobile ? "0" : "8px",
+    borderRadius: "8px",
     overflow: "hidden",
     backgroundColor: "white",
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    margin: isMobile ? "0" : "1rem",
-    transition: "all 0.3s ease",
+    transition: "transform 0.3s ease",
+    cursor: "pointer",
   };
 
   const imageStyle = {
     width: "100%",
-    height: isMobile ? "200px" : "400px",
-    objectFit: "contain",
+    height: "auto",
+    maxHeight: isMobile ? "250px" : "400px",
+    objectFit: "cover",
   };
 
   const contentStyle = {
-    padding: isMobile ? "12px" : "16px",
+    padding: "16px",
   };
 
   const titleStyle = {
@@ -43,27 +52,36 @@ const Card = ({ movies }) => {
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
+    color: "#1f2937",
+    textDecoration: "none",
   };
 
   const infoStyle = {
     display: "flex",
     justifyContent: "space-between",
-    fontSize: isMobile ? "0.75rem" : "0.875rem",
+    fontSize: "0.875rem",
     color: "#4b5563",
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={containerStyle}>
       {movies.Search && movies.Search.length > 0
         ? movies.Search.map((movie) => (
-            <div key={movie.imdbID} style={cardStyle}>
-              <div>
-                <img src={movie.Poster} alt={movie.Title} style={imageStyle} />
-              </div>
+            <div
+              key={movie.imdbID}
+              style={cardStyle}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "scale(1.05)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "scale(1)")
+              }
+            >
+              <img src={movie.Poster} alt={movie.Title} style={imageStyle} />
               <div style={contentStyle}>
-                <h3 style={titleStyle}>
-                  <Link to={`/watchlist/${movie.imdbID}`}>{movie.Title}</Link>
-                </h3>
+                <Link to={`/moviedetails/${movie.imdbID}`} style={titleStyle}>
+                  {movie.Title}
+                </Link>
                 <div style={infoStyle}>
                   <span>{movie.Year}</span>
                   <span style={{ textTransform: "capitalize" }}>
@@ -77,9 +95,11 @@ const Card = ({ movies }) => {
     </div>
   );
 };
+
 Card.propTypes = {
   movies: PropTypes.shape({
     Search: PropTypes.arrayOf(PropTypes.object),
   }),
 };
+
 export default Card;
