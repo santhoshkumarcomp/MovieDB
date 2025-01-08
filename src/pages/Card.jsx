@@ -46,7 +46,7 @@ const Card = ({ movies, watchList, setWatchList }) => {
           marginTop: "20px", // Add some spacing above the heading
         }}
       >
-        Searched Movies
+        Searched titles
       </h1>
       <div className="movie-grid">
         {currentMovies.map((movie) => (
