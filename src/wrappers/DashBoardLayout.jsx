@@ -3,13 +3,15 @@ import backgroundImage from "../assets/Background.jpeg";
 import movieLoader from "../loaders/movieLoader";
 import { useState } from "react";
 import Card from "../pages/Card";
+import PropTypes from "prop-types";
 var movies = {};
 const DashBoardLayout = ({ watchList, setWatchList }) => {
   const [searchMovie, setSearchMovie] = useState("");
   const [moviesData, setMoviesData] = useState([]);
+  const [type, setType] = useState("movie");
   const navigate = useNavigate();
-  const handleClick = (searchMovie) => async () => {
-    movies = await movieLoader(searchMovie);
+  const handleClick = (searchMovie, type) => async () => {
+    movies = await movieLoader(searchMovie, type);
     setMoviesData(movies.Search || []);
     console.log("Fetched Movies:", moviesData);
 
@@ -53,12 +55,12 @@ const DashBoardLayout = ({ watchList, setWatchList }) => {
               border: "1px solid #ccc",
             }}
           />
-          {/* <select name="selectedFruit">
-            <option value="apple">Apple</option>
-            <option value="banana">Banana</option>
-            <option value="orange">Orange</option>
-          </select> */}
-          <button onClick={handleClick(searchMovie)}>Search</button>
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="movie">Movie</option>
+            <option value="series">Series</option>
+            <option value="episode">Episode</option>
+          </select>
+          <button onClick={handleClick(searchMovie, type)}>Search</button>
           <button
             onClick={() => {
               navigate("/watchlist");
@@ -84,9 +86,23 @@ const DashBoardLayout = ({ watchList, setWatchList }) => {
           color: white;
           cursor: pointer;
           transition: background-color 0.2s;
-        }`}</style>
+        }
+        select {
+         margin-left: 20px;
+          padding: 8px 16px;
+          border: none;
+          border-radius: 4px;
+          background-color: #0066cc;
+          color: white;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+        `}</style>
     </>
   );
 };
-
+DashBoardLayout.propTypes = {
+  watchList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setWatchList: PropTypes.func.isRequired,
+};
 export default DashBoardLayout;

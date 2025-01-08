@@ -1,7 +1,7 @@
-const movieLoader = async (searchTerm) => {
+const movieLoader = async (searchTerm, type) => {
   try {
     const response = await fetch(
-      `https://www.omdbapi.com/?apikey=4769891&s=${searchTerm}`
+      `https://www.omdbapi.com/?apikey=4769891&s=${searchTerm}&type=${type}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

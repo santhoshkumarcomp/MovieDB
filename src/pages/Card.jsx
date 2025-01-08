@@ -69,13 +69,13 @@ const Card = ({ movies, watchList, setWatchList }) => {
               onClick={(e) => {
                 e.preventDefault();
                 console.log("Click");
+
                 if (watchList.length > 0) {
                   setWatchList([...watchList, movie]);
                 } else {
                   watchList.push(movie);
                 }
-                console.log(movie.imdbID);
-                console.log(watchList);
+                alert("Movie added to Watchlist");
                 // Add movie to bookmark list
               }}
             >
