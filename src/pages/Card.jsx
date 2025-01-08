@@ -92,7 +92,7 @@ const Card = ({ movies, watchList, setWatchList }) => {
           disabled={currentPage === 1}
           className="pagination-button"
         >
-          Previous
+          {"<"}
         </button>
         <span className="page-info">
           Page {currentPage} of {totalPages}
@@ -102,7 +102,7 @@ const Card = ({ movies, watchList, setWatchList }) => {
           disabled={currentPage === totalPages}
           className="pagination-button"
         >
-          Next
+          {">"}
         </button>
       </div>
 
@@ -199,7 +199,7 @@ const Card = ({ movies, watchList, setWatchList }) => {
         }
 
         .page-info {
-          color: #333;
+          color: white !important;
         }
 
         .no-movies {
